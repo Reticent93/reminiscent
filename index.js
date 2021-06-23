@@ -17,10 +17,10 @@ app.get('/', (req, res) => {
 })
 
 const PORT = process.env.PORT || 5000
-
+const MONGO = process.env.CONNECTION_URL
 
 mongoose
-  .connect(process.env.CONNECTION_URL, {
+  .connect(MONGO, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
