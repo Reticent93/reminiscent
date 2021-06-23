@@ -1,7 +1,7 @@
 import axios from "axios";
 
 
-const url = 'https://reminisce-project.herokuapp.com/posts'
+const url = 'https://sharp-easley-038e05.netlify.app/posts'
 
 export const fetchPosts = () => axios.get(url)
 export const createPost = (newPost) => axios.post(url, newPost)
