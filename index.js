@@ -1,5 +1,6 @@
 import express from 'express'
 import mongoose from 'mongoose'
+import path from 'path';
 import cors from 'cors'
 import dotenv from 'dotenv'
 import postRoutes from './routes/posts.js'
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
     );
     next();
 });
+app.use(express.static(path.join(__dirname, "client/build")))
+app.use(express.static(path.join(__dirname, "client/public")));
 
 app.use('/posts', postRoutes)
 app.get('/', (req, res) => {
