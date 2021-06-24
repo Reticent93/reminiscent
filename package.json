@@ -19,5 +19,8 @@
     "heroku": "^7.54.1",
     "mongoose": "^5.12.14",
     "nodemon": "^2.0.7"
+  },
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.0"
   }
 }
