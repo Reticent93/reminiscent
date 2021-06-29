@@ -23,15 +23,17 @@ app.use((req, res, next) => {
 
 
 app.use('/posts', postRoutes)
-app.get('/', (req, res) => {
-    res.send('Hello to Reminisce API')
-})
+// app.get('/', (req, res) => {
+//     res.send('Hello to Reminisce API')
+// })
 
-const PORT = process.env.PORT || 5000
+//mongodb atlas
+const MONGODB_URI = process.env.MONGODB_URI
+const PORT = process.env.PORT || 8090
 
 
 mongoose
-    .connect(process.env.CONNECTION_URL, {
+    .connect(MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })
