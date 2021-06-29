@@ -4,9 +4,9 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import postRoutes from './routes/posts.js'
+dotenv.config()
 
 const app = express()
-dotenv.config()
 app.use(express.json({limit: '30mb', extended: true}))
 app.use(express.urlencoded({limit: '30mb', extended: true}))
 app.use(cors)
@@ -32,14 +32,8 @@ const MONGODB_URI = process.env.MONGODB_URI
 const PORT = process.env.PORT || 8090
 
 
-mongoose
-    .connect(MONGODB_URI, {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-    })
-    .then(() =>
-        app.listen(PORT, () => console.log(`Server running on port ${PORT}`)),
-    )
-    .catch((err) => console.error(err.message))
+mongoose.connect(MONGODB_URI, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => app.listen(PORT, () => console.log(`Server listening on port: ${PORT}`)))
+    .catch((err) => console.error(err))
 
 mongoose.set('useFindAndModify', false)
