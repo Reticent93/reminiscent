@@ -23,9 +23,9 @@ app.use((req, res, next) => {
 
 
 app.use('/posts', postRoutes)
-// app.get('/', (req, res) => {
-//     res.send('Hello to Reminisce API')
-// })
+app.get('/', (req, res) => {
+    res.send('Hello to Reminisce API')
+})
 
 const PORT = process.env.PORT || 5000
 
