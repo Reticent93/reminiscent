@@ -7,7 +7,11 @@ import Icon from './icon'
 import useStyles from './styles'
 import LockOutlined from "@material-ui/icons/LockOutlined";
 import Input from './Input'
+import {signin, signup} from "../../actions/auth";
 
+
+
+const initialState = {firstName: '', lastName: '', email: '', password: '', confirmPassword: '' }
 
 const Auth = () => {
 
@@ -15,16 +19,22 @@ const Auth = () => {
     const dispatch = useDispatch()
     const history = useHistory()
     const [isSignup, setIsSignup] = useState(false)
-
+    const [formData, setFormData] = useState(initialState)
     const [password, setPassword] = useState(false)
 
     const handlePassword = () => setPassword((prePassword) => !prePassword)
 
-    const handleSubmit = () => {
+    const handleSubmit = (e) => {
+        e.preventDefault()
+        if(isSignup) {
+            dispatch(signup(formData, history))
+        } else {
+            dispatch(signin(formData, history))
 
+        }
     }
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({...formData, [e.target.name]: e.target.value})
     }
 
     const googleSuccess = async (res) => {
@@ -46,7 +56,7 @@ console.error(e)
 
     const switchMode = () => {
         setIsSignup((prevIsSignup) => !prevIsSignup)
-        handlePassword(false)
+        setPassword(false)
     }
 
     return (
@@ -66,8 +76,8 @@ console.error(e)
 
                             </>
                         )}
-                        <Input name={'email'} label={'Email Address'} handleChange={handleChange} type={'email'}/>
-                        <Input name={'password'} label={'Password'} handleChange={handleChange}
+                        <Input name='email' label={'Email Address'} handleChange={handleChange} type={'email'}/>
+                        <Input name='password' label={'Password'} handleChange={handleChange}
                                type={password ? 'text' : 'password'} handlePassword={handlePassword}/>
                         {isSignup && <Input name='confirmPassword' label='Confirm Password' handleChange={handleChange}
                                             type={'password'}/>}
