@@ -8,10 +8,9 @@ import { createPost, updatePost } from "../../actions/posts.js";
 
 const Form = ({currentId, setCurrentId}) => {
     const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null)
-
+    const user = JSON.parse(localStorage.getItem('profile'))
     const dispatch = useDispatch()
     const [postData, setPostData] = useState({
-        creator: '',
         title: '',
         message: '',
         tags: '',
@@ -25,11 +24,11 @@ const Form = ({currentId, setCurrentId}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        if (currentId) {
-            dispatch(updatePost(currentId, postData))
-        } else {
+        if (currentId === 0) {
+            dispatch(createPost({...postData, name: user?.result?.name }))
 
-            dispatch(createPost(postData))
+        } else {
+            dispatch(updatePost(currentId, {...postData, name: user?.result?.name}))
         }
         clear()
     }
@@ -37,7 +36,6 @@ const Form = ({currentId, setCurrentId}) => {
     const clear = () => {
         setCurrentId(null)
         setPostData({
-            creator: '',
             title: '',
             message: '',
             tags: '',
@@ -45,12 +43,21 @@ const Form = ({currentId, setCurrentId}) => {
         })
     }
 
+    if(!user?.result?.name) {
+        return (
+            <Paper className={classes.paper}>
+                <Typography variant='h6' align={'center'}>
+                    Please Sign In
+                </Typography>
+            </Paper>
+        )
+    }
+
     return (
         <Paper className={classes.paper}>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentId ? 'Editing' : 'Reminiscing About '} a Memory</Typography>
-                <TextField name='Creator' variant='outlined' label='Creator' fullWidth value={postData.creator}
-                           onChange={(e) => setPostData({...postData, creator: e.target.value})}/>
+
                 <TextField name='Title' variant='outlined' label='Title' fullWidth value={postData.title}
                            onChange={(e) => setPostData({...postData, title: e.target.value})}/>
                 <TextField name='Message' variant='outlined' label='Message' fullWidth value={postData.message}
