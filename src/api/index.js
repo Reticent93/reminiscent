@@ -1,8 +1,10 @@
 import axios from "axios";
 
-const API = axios.create(({baseURL: 'https://reminiscent-project.herokuapp.com/'}))
+// const API = axios.create(({baseURL: 'https://reminiscent-project.herokuapp.com/'}))
 // const url = 'https://reminiscent-project.herokuapp.com/posts'
 // const url = 'http://localhost:5000'
+const API = axios.create(({baseURL: 'https://reminiscent-project.herokuapp.com'}))
+
 
 
 export const fetchPosts = () => API.get('/posts')
@@ -11,5 +13,5 @@ export const updatePost = (id, updatedPost) => API.patch(`/posts/${id}`, updated
 export const deletePost = (id, deletePost) => API.delete(`/posts/${id}`, deletePost)
 export const likePost = (id) => API.patch(`/posts/${id}/likePost`)
 
-export const signIn = (formData) => API.post('/users/signin', formData)
-export const signUp = (formData) => API.post('/users/signup', formData)
+export const signIn = (formData) => API.post('/user/signin', formData)
+export const signUp = (formData) => API.post('/user/signup', formData)
