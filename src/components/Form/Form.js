@@ -25,16 +25,18 @@ const Form = ({currentId, setCurrentId}) => {
     const handleSubmit = (e) => {
         e.preventDefault()
         if (currentId === 0) {
-            dispatch(createPost({...postData, name: user?.result?.name }))
-clear()
-        } else {
             dispatch(updatePost(currentId, {...postData, name: user?.result?.name}))
+
+            clear()
+        } else {
+            dispatch(createPost({...postData, name: user?.result?.name}))
+
         }
         clear()
     }
 
     const clear = () => {
-        setCurrentId(null)
+        setCurrentId(0)
         setPostData({
             title: '',
             message: '',
@@ -43,7 +45,7 @@ clear()
         })
     }
 
-    if(!user?.result?.name) {
+    if (!user?.result?.name) {
         return (
             <Paper className={classes.paper}>
                 <Typography variant='h6' align={'center'}>
