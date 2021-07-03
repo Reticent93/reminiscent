@@ -1,8 +1,8 @@
-import express from 'express'
+
 import PostMessage from "../models/postMessage.js";
 import mongoose from "mongoose";
 
-const router = express.Router();
+
 
 export const getPosts = async(req, res) => {
     try {
@@ -65,4 +65,3 @@ export const likePost = async (req, res) => {
     const updatedPost = await PostMessage.findByIdAndUpdate(id,  post, {new: true})
     res.status(200).json(updatedPost)
 }
-export default router
