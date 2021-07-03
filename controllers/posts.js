@@ -1,7 +1,8 @@
+import express from 'express'
 import PostMessage from "../models/postMessage.js";
 import mongoose from "mongoose";
 
-
+const router = express.Router();
 
 export const getPosts = async(req, res) => {
     try {
@@ -15,7 +16,7 @@ export const getPosts = async(req, res) => {
 
 export const createPost = async (req, res) => {
     const post = req.body
-    const newPost = new PostMessage({...post, creator: req.userId, createAt: new Date().toISOString()})
+    const newPost = new PostMessage({...post, creator: req.userId, createdAt: new Date().toISOString()})
     try {
         await newPost.save()
         res.status(201).json(newPost)
@@ -43,10 +44,12 @@ export const deletePost = async (req, res) => {
 
 export const likePost = async (req, res) => {
     const {id} = req.params
-    if(!req.userId) return res.json({message: 'Unauthenticated user'})
+    if(!req.userId) {
+        return res.json({message: 'Unauthenticated user'})
+    }
 
 
-    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send('No post with id specified')
+    if(!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No post with id ${id}`)
 
     const post = await PostMessage.findById(id)
 
@@ -59,7 +62,7 @@ export const likePost = async (req, res) => {
         // dislike the post
         post.likes = post.likes.filter((id) => id !== String(req.userId))
     }
-    const updatedPost = await PostMessage.findByIdAndUpdate(id, {id, post}, {new: true})
-    res.json(updatedPost)
-
+    const updatedPost = await PostMessage.findByIdAndUpdate(id,  post, {new: true})
+    res.status(200).json(updatedPost)
 }
+export default router
