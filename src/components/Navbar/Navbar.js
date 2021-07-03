@@ -22,15 +22,17 @@ const Navbar = () => {
     }
 
     useEffect(() => {
-        const token = user?.token
-        //JWT
+        const token = user?.token;
+
         if (token) {
-            const decodedToken = decode(token)
-            if (decodedToken.exp * 1000 < new Date().getTime()) logout()
+            const decodedToken = decode(token);
+
+            if (decodedToken.exp * 1000 < new Date().getTime()) logout();
         }
 
-        setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [location])
+        setUser(JSON.parse(localStorage.getItem('profile')));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location]);
 
     return (
         <AppBar position="static" className={classes.appBar} color="inherit">
